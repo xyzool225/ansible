@@ -1,0 +1,33 @@
+---
+- name: Create a new user using root privileges
+  hosts: clients
+  become: yes
+  vars_files:
+    - ../vault.yml
+  tasks:
+    - name: Add new user
+      ansible.builtin.user:
+        name: "{{ username }}"
+        state: present
+        shell: /bin/bash
+        groups: sudo
+        append: yes
+        create_home: yes
+
+    - name: Set password for new user
+      ansible.builtin.user:
+        name: "{{ username }}"
+        password: "{{ password | password_hash('sha512') }}"
+
+    - name: Create SSH directory for new user
+      file:
+        path: /home/"{{ username }}"/.ssh
+        state: directory
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: 0700
+
+    - name: Add authorized key
+      authorized_key:
+        user: "{{ username }}"
+        key: "{{ ssh_pubkey }}"

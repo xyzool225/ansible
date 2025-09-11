@@ -1,0 +1,25 @@
+---
+- hosts: clients
+  become: yes
+  become_user: root
+  roles:
+    - ../roles/wazuh/ansible-wazuh-agent
+  vars_files:
+    - ../../vault.yml
+  vars:
+    wazuh_agent_name: "{{ wazuh_agent_hostname }}"
+    wazuh_managers:
+      - address: 192.168.80.245
+        port: 1514
+        protocol: tcp
+        api_port: 55000
+        api_proto: 'https'
+        api_user: wazuh
+        max_retries: 5
+        retry_interval: 5
+    wazuh_agent_authd:
+      registration_address: 192.168.80.245
+      enable: true
+      port: 1515
+      ssl_agent_ca: null
+      ssl_auto_negotiate: 'no'

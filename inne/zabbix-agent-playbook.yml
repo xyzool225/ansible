@@ -1,0 +1,81 @@
+---
+- name: Install and configure Zabbix agent on RHEL 10
+  hosts: zabbix_agents
+  become: true
+  vars:
+    zabbix_repo_url: "https://repo.zabbix.com/zabbix/7.4/release/alma/9/noarch/zabbix-release-latest-7.4.el9.noarch.rpm"
+    zabbix_server_ip: "10.123.0.101"
+
+  tasks:
+
+    - name: Update system packages (excluding ZFS-related libs)
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+        update_cache: yes
+        exclude:
+          - "zfs*"
+          - "kmod-zfs*"
+          - "libnvpair*"
+          - "libuutil*"
+          - "libzfs*"
+          - "libzpool*"
+          - "zstd-kmod*"
+      ignore_errors: yes
+
+    - name: Install Zabbix release RPM
+      ansible.builtin.dnf:
+        name: "{{ zabbix_repo_url }}"
+        disable_gpg_check: true
+        state: present
+
+    - name: Install Zabbix agent
+      ansible.builtin.dnf:
+        name: zabbix-agent
+        state: present
+
+    - name: Ensure /etc/zabbix/zabbix_agentd.conf exists
+      ansible.builtin.stat:
+        path: /etc/zabbix/zabbix_agentd.conf
+      register: zabbix_conf_check
+
+    - name: Fail if config not found
+      ansible.builtin.fail:
+        msg: "Zabbix agent config file not found! Agent may not be properly installed."
+      when: not zabbix_conf_check.stat.exists
+
+    - name: Configure Zabbix agent - Server IP
+      ansible.builtin.lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        regexp: '^Server='
+        line: "Server={{ zabbix_server_ip }}"
+        backup: yes
+
+    - name: Configure Zabbix agent - ServerActive IP
+      ansible.builtin.lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        regexp: '^ServerActive='
+        line: "ServerActive={{ zabbix_server_ip }}"
+        backup: yes
+
+    - name: Configure Zabbix agent - Hostname
+      ansible.builtin.lineinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        regexp: '^Hostname='
+        line: "Hostname={{ ansible_hostname }}"
+        backup: yes
+
+    - name: Enable Zabbix agent service
+      ansible.builtin.systemd:
+        name: zabbix-agent
+        enabled: true
+
+    - name: Restart Zabbix agent service
+      ansible.builtin.systemd:
+        name: zabbix-agent
+        state: restarted
+
+    - name: Ensure Zabbix agent is running
+      ansible.builtin.systemd:
+        name: zabbix-agent
+        state: started

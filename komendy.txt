@@ -1,0 +1,5 @@
+[create_user]
+ansible-playbook -i hosts.ini create_user.yml --ask-vault-pass
+
+[wazuh_agent]
+sudo ansible-playbook wazuh-agent.yml -b -K

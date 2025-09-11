@@ -1,0 +1,18 @@
+[Jak korzystać?]
+
+Trzeba zainstalować ansible "sudo apt install ansible"
+Uruchamia się komendą "ansible-playbook playbook.yml -f 10"
+Można dodać --verbose.
+
+[Parametry]
+
+--check   	Uruchamia playbook bez zmian w systemie.
+	  	Zwraca raport z dokonanych zmian.
+
+--diff	  	Listuje dokonane zmiany.
+	
+--list-hosts	Listuje hosty.
+	
+--list-tasks	Listuje taski.
+	
+--syntax-check	Sprawdza syntax.
