@@ -1,0 +1,63 @@
+2025-09-10 13:53:07,270 p=2890 u=root n=ansible INFO| [DEPRECATION WARNING]: community.general.yaml has been deprecated. The plugin has been superseded by the the 
+option `result_format=yaml` in callback plugin ansible.builtin.default from ansible-core 2.13 onwards. This 
+feature will be removed from community.general in version 12.0.0. Deprecation warnings can be disabled by 
+setting deprecation_warnings=False in ansible.cfg.
+2025-09-10 13:53:21,184 p=2890 u=root n=ansible INFO| PLAY [Disable user account] **********************************************************************************
+2025-09-10 13:53:21,195 p=2890 u=root n=ansible INFO| TASK [Gathering Facts] ***************************************************************************************
+2025-09-10 13:53:21,204 p=2890 u=root n=ansible INFO| fatal: [server_AnsibleTest]: FAILED! => 
+  msg: The field 'password' has an invalid value, which includes an undefined variable.. 'vault_ssh_password' is undefined
+2025-09-10 13:53:21,204 p=2890 u=root n=ansible INFO| PLAY RECAP ***************************************************************************************************
+2025-09-10 13:53:21,204 p=2890 u=root n=ansible INFO| server_AnsibleTest         : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-09-10 13:55:22,704 p=2932 u=root n=ansible INFO| [DEPRECATION WARNING]: community.general.yaml has been deprecated. The plugin has been superseded by the the 
+option `result_format=yaml` in callback plugin ansible.builtin.default from ansible-core 2.13 onwards. This 
+feature will be removed from community.general in version 12.0.0. Deprecation warnings can be disabled by 
+setting deprecation_warnings=False in ansible.cfg.
+2025-09-10 13:55:25,279 p=2932 u=root n=ansible INFO| PLAY [Disable user account] **********************************************************************************
+2025-09-10 13:55:25,286 p=2932 u=root n=ansible INFO| TASK [Gathering Facts] ***************************************************************************************
+2025-09-10 13:55:25,294 p=2932 u=root n=ansible INFO| fatal: [server_AnsibleTest]: FAILED! => 
+  msg: The field 'password' has an invalid value, which includes an undefined variable.. 'vault_ssh_password' is undefined
+2025-09-10 13:55:25,295 p=2932 u=root n=ansible INFO| PLAY RECAP ***************************************************************************************************
+2025-09-10 13:55:25,295 p=2932 u=root n=ansible INFO| server_AnsibleTest         : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-09-10 13:56:50,736 p=2972 u=root n=ansible ERROR| ERROR! the playbook: disable_user_simple.yml could not be found
+2025-09-10 13:56:55,171 p=2984 u=root n=ansible INFO| [DEPRECATION WARNING]: community.general.yaml has been deprecated. The plugin has been superseded by the the 
+option `result_format=yaml` in callback plugin ansible.builtin.default from ansible-core 2.13 onwards. This 
+feature will be removed from community.general in version 12.0.0. Deprecation warnings can be disabled by 
+setting deprecation_warnings=False in ansible.cfg.
+2025-09-10 13:56:57,161 p=2984 u=root n=ansible INFO| PLAY [Disable user account] **********************************************************************************
+2025-09-10 13:56:57,167 p=2984 u=root n=ansible INFO| TASK [Gathering Facts] ***************************************************************************************
+2025-09-10 13:56:57,177 p=2984 u=root n=ansible INFO| fatal: [server_AnsibleTest]: FAILED! => 
+  msg: The field 'password' has an invalid value, which includes an undefined variable.. 'vault_ssh_password' is undefined
+2025-09-10 13:56:57,177 p=2984 u=root n=ansible INFO| PLAY RECAP ***************************************************************************************************
+2025-09-10 13:56:57,177 p=2984 u=root n=ansible INFO| server_AnsibleTest         : ok=0    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+2025-09-10 14:00:22,463 p=3047 u=root n=ansible INFO| server_AnsibleTest | SUCCESS => {
+    "ubuntu2_ssh_password": "VARIABLE IS NOT DEFINED!"
+}
+2025-09-10 14:05:38,136 p=3144 u=root n=ansible INFO| server_AnsibleTest | SUCCESS => {
+    "ubuntu2_ssh_password": "ubuntu2"
+}
+2025-09-10 14:05:45,504 p=3151 u=root n=ansible ERROR| ERROR! Unable to read source file (vault.yml): [Errno 2] No such file or directory: 'vault.yml'
+2025-09-10 14:06:43,950 p=3274 u=root n=ansible INFO| [DEPRECATION WARNING]: community.general.yaml has been deprecated. The plugin has been superseded by the the 
+option `result_format=yaml` in callback plugin ansible.builtin.default from ansible-core 2.13 onwards. This 
+feature will be removed from community.general in version 12.0.0. Deprecation warnings can be disabled by 
+setting deprecation_warnings=False in ansible.cfg.
+2025-09-10 14:06:46,242 p=3274 u=root n=ansible INFO| PLAY [Disable user account] **********************************************************************************
+2025-09-10 14:06:46,267 p=3274 u=root n=ansible INFO| TASK [Gathering Facts] ***************************************************************************************
+2025-09-10 14:06:47,562 p=3274 u=root n=ansible WARNING| [WARNING]: Platform linux on host server_AnsibleTest is using the discovered Python interpreter at
+/usr/bin/python3.12, but future installation of another Python interpreter could change the meaning of that
+path. See https://docs.ansible.com/ansible-core/2.18/reference_appendices/interpreter_discovery.html for more
+information.
+
+2025-09-10 14:06:47,562 p=3274 u=root n=ansible INFO| ok: [server_AnsibleTest]
+2025-09-10 14:06:47,569 p=3274 u=root n=ansible INFO| TASK [Check if user exists] **********************************************************************************
+2025-09-10 14:06:47,922 p=3274 u=root n=ansible INFO| ok: [server_AnsibleTest]
+2025-09-10 14:06:47,929 p=3274 u=root n=ansible INFO| TASK [Stop if user doesn't exist] ****************************************************************************
+2025-09-10 14:06:47,939 p=3274 u=root n=ansible INFO| skipping: [server_AnsibleTest]
+2025-09-10 14:06:47,946 p=3274 u=root n=ansible INFO| TASK [Lock user account] *************************************************************************************
+2025-09-10 14:06:48,456 p=3274 u=root n=ansible INFO| changed: [server_AnsibleTest]
+2025-09-10 14:06:48,464 p=3274 u=root n=ansible INFO| TASK [Kill user processes] ***********************************************************************************
+2025-09-10 14:06:48,821 p=3274 u=root n=ansible INFO| changed: [server_AnsibleTest]
+2025-09-10 14:06:48,827 p=3274 u=root n=ansible INFO| TASK [Confirm user disabled] *********************************************************************************
+2025-09-10 14:06:48,840 p=3274 u=root n=ansible INFO| ok: [server_AnsibleTest] => 
+  msg: Użytkownik test123 został wyłączony na server_AnsibleTest
+2025-09-10 14:06:48,841 p=3274 u=root n=ansible INFO| PLAY RECAP ***************************************************************************************************
+2025-09-10 14:06:48,841 p=3274 u=root n=ansible INFO| server_AnsibleTest         : ok=5    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   

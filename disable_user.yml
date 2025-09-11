@@ -1,0 +1,42 @@
+---
+# disable_user.yml - Uproszczony playbook do wyłączenia użytkownika
+- name: Disable user account
+  hosts: all
+  become: yes
+  vars_prompt:
+    - name: target_username
+      prompt: "Podaj nazwę użytkownika do wyłączenia"
+      private: no
+  
+  vars:
+    # Hasła z vault
+    ansible_ssh_pass: "{{ ubuntu2_ssh_password }}"
+    ansible_become_pass: "{{ ubuntu2_sudo_password }}"
+    
+  tasks:
+    - name: Check if user exists
+      getent:
+        database: passwd
+        key: "{{ target_username }}"
+      register: user_check
+      ignore_errors: yes
+
+    - name: Stop if user doesn't exist
+      fail:
+        msg: "Użytkownik {{ target_username }} nie istnieje!"
+      when: user_check.failed
+
+    - name: Lock user account
+      user:
+        name: "{{ target_username }}"
+        password_lock: yes
+        shell: /usr/sbin/nologin
+        expires: 0
+
+    - name: Kill user processes
+      shell: "pkill -u {{ target_username }} || true"
+      ignore_errors: yes
+
+    - name: Confirm user disabled
+      debug:
+        msg: "Użytkownik {{ target_username }} został wyłączony na {{ inventory_hostname }}"
