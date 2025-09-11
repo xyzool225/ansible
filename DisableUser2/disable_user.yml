@@ -1,0 +1,43 @@
+---
+- name: Disable user account on multiple servers
+  hosts: all
+  become: yes
+  vars_files:
+    - vault.yml
+
+  vars_prompt:
+    - name: target_username
+      prompt: "Podaj nazwe uzytkownika do wylaczenia"
+      private: no  # wpisywane znaki sa widoczne na konsoli podczas wpisywania
+
+  vars:
+    ansible_ssh_pass: "{{ servers[inventory_hostname].ssh }}"
+    ansible_sudo_pass: "{{ servers[inventory_hostname].sudo }}"
+
+  tasks:
+    - name: Check if user exists
+      getent:
+        database: passwd
+        key: "{{ target_username }}"
+      register: user_check
+      ignore_errors: yes
+
+    - name: Stop if user doesn't exist
+      fail:
+        msg: "Uzytkownik {{ target_username }} nie istnieje"
+      when: user_check.failed
+
+    - name: Lock user account
+      user:
+        name: "{{ target_username }}"
+        password_lock: yes
+        shell: /usr/sbin/nologin
+        expires: 0
+
+    - name: Kill user processes
+      shell: "pkill -u {{ target_username }} || true"
+      ignore_errors: yes
+
+    - name: Confirm user disabled
+      debug:
+        msg: "Uzytkownik {{ target_username }} zostal wylaczony na {{ inventory_hostname }}"
